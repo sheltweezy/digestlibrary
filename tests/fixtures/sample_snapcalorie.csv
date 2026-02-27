@@ -1,0 +1,10 @@
+date,meal,food_name,brand,calories,protein,carbs,fat,fiber,sugar,sodium,water,caffeine,serving_size,serving_qty
+2025-01-15 08:30:00,breakfast,Oatmeal,,300,10,55,5,8,2,150,,0,1 cup,1
+2025-01-15 08:30:00,breakfast,Coffee,Starbucks,5,0,0,0,0,0,0,,150,12 fl oz,1
+2025-01-15 12:00:00,lunch,Grilled Chicken Salad,,450,40,20,18,5,4,600,,,1 bowl,1
+2025-01-15 15:00:00,snack,Greek Yogurt,Chobani,120,17,8,0,0,7,60,,,1 container,1
+2025-01-15 19:00:00,dinner,Salmon with Vegetables,,520,42,25,22,6,8,480,,,1 serving,1
+2025-01-16 07:45:00,breakfast,Scrambled Eggs,,280,18,2,20,0,1,320,,,2 eggs,2
+2025-01-16 07:45:00,breakfast,Whole Grain Toast,Dave's Killer Bread,110,5,20,2,3,3,180,,,1 slice,1
+2025-01-16 12:30:00,lunch,Turkey Sandwich,,380,28,40,10,3,5,720,,,1 sandwich,1
+2025-01-16 20:00:00,dinner,Pasta with Marinara,,580,18,95,12,6,12,680,,,2 cups,2
