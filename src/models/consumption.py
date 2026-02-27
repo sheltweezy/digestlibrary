@@ -1,9 +1,5 @@
-"""
-SQLite models for the Consumption Library.
-Tracks food, drinks, caffeine, supplements, and prescriptions per profile per day.
-"""
-from datetime import datetime
-from sqlalchemy import Column, Integer, String, Float, DateTime, Date, ForeignKey, Text
+from datetime import datetime, date as date_type
+from sqlalchemy import Column, Integer, String, Float, DateTime, Date, ForeignKey, Text, UniqueConstraint
 from sqlalchemy.orm import relationship
 from src.db.database import Base
 
@@ -11,74 +7,93 @@ from src.db.database import Base
 class Profile(Base):
     __tablename__ = "profiles"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    id             = Column(Integer, primary_key=True, index=True)
+    name           = Column(String, nullable=False)
+    date_of_birth  = Column(Date, nullable=True)
+    weight_lbs     = Column(Float, nullable=True)
+    height_inches  = Column(Float, nullable=True)
+    biological_sex = Column(String, nullable=True)
+    photo_path     = Column(String, nullable=True)
+    created_at     = Column(DateTime, default=datetime.utcnow)
 
-    entries = relationship("ConsumptionEntry", back_populates="profile")
+    entries = relationship("ConsumptionEntry", back_populates="profile", cascade="all, delete-orphan")
+    goals   = relationship("ProfileGoals", back_populates="profile", uselist=False, cascade="all, delete-orphan")
 
 
 class ConsumptionEntry(Base):
-    """One logged item (food, drink, supplement, etc.) for a profile on a given day."""
     __tablename__ = "consumption_entries"
 
-    id = Column(Integer, primary_key=True, index=True)
-    profile_id = Column(Integer, ForeignKey("profiles.id"), nullable=False)
+    id           = Column(Integer, primary_key=True, index=True)
+    profile_id   = Column(Integer, ForeignKey("profiles.id"), nullable=False)
 
-    # When
-    logged_at = Column(DateTime, nullable=False)
-    log_date = Column(Date, nullable=False)  # derived from logged_at for day-level queries
-    meal_context = Column(String)  # breakfast, lunch, dinner, snack, etc.
+    logged_at    = Column(DateTime, nullable=False)
+    log_date     = Column(Date, nullable=False)
+    meal_context = Column(String)
 
-    # What
-    item_name = Column(String, nullable=False)
-    brand = Column(String)
-    category = Column(String)  # food, drink, caffeine, supplement, prescription
+    item_name    = Column(String, nullable=False)
+    brand        = Column(String)
+    category     = Column(String)
 
-    # Macros (all nullable — not every item has all values)
-    calories = Column(Float)
-    protein_g = Column(Float)
-    carbs_g = Column(Float)
-    fat_g = Column(Float)
-    fiber_g = Column(Float)
-    sugar_g = Column(Float)
-    sodium_mg = Column(Float)
+    calories       = Column(Float)
+    protein_g      = Column(Float)
+    carbs_g        = Column(Float)
+    fat_g          = Column(Float)
+    saturates_g    = Column(Float)
+    fiber_g        = Column(Float)
+    sugar_g        = Column(Float)
+    cholesterol_mg = Column(Float)
+    sodium_mg      = Column(Float)
+    potassium_mg   = Column(Float)
+    water_ml       = Column(Float)
+    caffeine_mg    = Column(Float)
 
-    # Hydration / stimulants
-    water_ml = Column(Float)
-    caffeine_mg = Column(Float)
-
-    # Quantity
+    serving_qty  = Column(Float)
     serving_size = Column(String)
-    serving_qty = Column(Float)
 
-    # Source
-    source = Column(String)  # snapcalorie, manual, barcode, etc.
-    source_id = Column(String)  # external ID from the source app
-
-    # Context (for ChromaDB — stored here as reference)
-    notes = Column(Text)
+    source    = Column(String)
+    source_id = Column(String)
+    notes     = Column(Text)
 
     profile = relationship("Profile", back_populates="entries")
 
 
 class DailySummary(Base):
-    """Precomputed daily rollup per profile. Rebuilt on ingestion."""
     __tablename__ = "daily_summaries"
+    __table_args__ = (UniqueConstraint("profile_id", "log_date", name="uq_profile_date"),)
 
-    id = Column(Integer, primary_key=True, index=True)
+    id         = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, ForeignKey("profiles.id"), nullable=False)
-    log_date = Column(Date, nullable=False)
+    log_date   = Column(Date, nullable=False)
 
-    total_calories = Column(Float, default=0)
-    total_protein_g = Column(Float, default=0)
-    total_carbs_g = Column(Float, default=0)
-    total_fat_g = Column(Float, default=0)
-    total_fiber_g = Column(Float, default=0)
-    total_sugar_g = Column(Float, default=0)
-    total_sodium_mg = Column(Float, default=0)
-    total_water_ml = Column(Float, default=0)
-    total_caffeine_mg = Column(Float, default=0)
-    entry_count = Column(Integer, default=0)
+    total_calories       = Column(Float, default=0)
+    total_protein_g      = Column(Float, default=0)
+    total_carbs_g        = Column(Float, default=0)
+    total_fat_g          = Column(Float, default=0)
+    total_saturates_g    = Column(Float, default=0)
+    total_fiber_g        = Column(Float, default=0)
+    total_sugar_g        = Column(Float, default=0)
+    total_cholesterol_mg = Column(Float, default=0)
+    total_sodium_mg      = Column(Float, default=0)
+    total_potassium_mg   = Column(Float, default=0)
+    total_water_ml       = Column(Float, default=0)
+    total_caffeine_mg    = Column(Float, default=0)
+    entry_count          = Column(Integer, default=0)
 
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class ProfileGoals(Base):
+    __tablename__ = "profile_goals"
+
+    id          = Column(Integer, primary_key=True, index=True)
+    profile_id  = Column(Integer, ForeignKey("profiles.id"), nullable=False, unique=True)
+    calories    = Column(Float, nullable=True)
+    protein_g   = Column(Float, nullable=True)
+    carbs_g     = Column(Float, nullable=True)
+    fat_g       = Column(Float, nullable=True)
+    fiber_g     = Column(Float, nullable=True)
+    water_ml    = Column(Float, nullable=True)
+    caffeine_mg = Column(Float, nullable=True)
+    updated_at  = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    profile = relationship("Profile", back_populates="goals")

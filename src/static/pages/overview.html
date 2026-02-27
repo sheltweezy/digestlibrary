@@ -1,0 +1,106 @@
+<div class="page-header">
+  <h1 class="page-title">
+    <i class="ph ph-squares-four"></i> Overview
+  </h1>
+  <div class="topbar-sub" id="overview-period">Last 30 days</div>
+</div>
+
+<!-- No profile -->
+<div id="overview-no-profile" class="no-profile-notice" style="display:none">
+  <i class="ph ph-users"></i>
+  <h3>No profile selected</h3>
+  <p>Select or create a profile to view your overview.</p>
+  <button class="btn btn-primary" onclick="navigateTo('profiles')">
+    <i class="ph ph-user-plus"></i> Manage Profiles
+  </button>
+</div>
+
+<div id="overview-content">
+
+  <!-- Streak + summary bar -->
+  <div class="grid-4 mb-16" id="overview-kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="ph ph-fire"></i> Streak</div>
+      <div class="kpi-value" id="ov-streak">—<span class="kpi-unit">days</span></div>
+      <div class="kpi-sub">consecutive logging</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="ph ph-calendar-check"></i> Days Logged</div>
+      <div class="kpi-value" id="ov-days">—</div>
+      <div class="kpi-sub">out of last 30</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="ph ph-flame"></i> Avg Calories</div>
+      <div class="kpi-value" id="ov-avg-cal">—<span class="kpi-unit">kcal</span></div>
+      <div class="kpi-sub" id="ov-cal-trend">vs prior 30 days</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="ph ph-egg"></i> Avg Protein</div>
+      <div class="kpi-value" id="ov-avg-prot">—<span class="kpi-unit">g</span></div>
+      <div class="kpi-sub" id="ov-prot-trend">vs prior 30 days</div>
+    </div>
+  </div>
+
+  <!-- Macro comparison grid -->
+  <div class="grid-2 mb-16">
+
+    <!-- 30-day macro averages vs goals -->
+    <div class="card">
+      <div class="card-header">
+        <i class="ph ph-target"></i>
+        <span class="card-title">30-Day Averages vs Goals</span>
+      </div>
+      <div id="ov-progress-bars">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- vs prior period -->
+    <div class="card">
+      <div class="card-header">
+        <i class="ph ph-arrows-left-right"></i>
+        <span class="card-title">vs Prior 30 Days</span>
+      </div>
+      <div id="ov-comparisons">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Highlights -->
+  <div class="card mb-16">
+    <div class="card-header">
+      <i class="ph ph-lightning"></i>
+      <span class="card-title">Highlights</span>
+    </div>
+    <div id="ov-highlights" class="flex gap-12" style="flex-wrap:wrap">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <!-- Recent entries -->
+  <div class="card">
+    <div class="card-header">
+      <i class="ph ph-clock-counter-clockwise"></i>
+      <span class="card-title">Recent Entries</span>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Food</th>
+          <th>Meal</th>
+          <th>Calories</th>
+          <th>Protein</th>
+          <th>Carbs</th>
+          <th>Fat</th>
+        </tr>
+      </thead>
+      <tbody id="ov-recent-body">
+        <tr><td colspan="7" class="text-muted" style="text-align:center;padding:20px">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- end overview-content -->

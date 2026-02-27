@@ -1,0 +1,61 @@
+<div class="page-header">
+  <h1 class="page-title">
+    <i class="ph ph-calendar-blank"></i> History
+  </h1>
+</div>
+
+<!-- No profile -->
+<div id="history-no-profile" class="no-profile-notice" style="display:none">
+  <i class="ph ph-users"></i>
+  <h3>No profile selected</h3>
+  <p>Select or create a profile to view history.</p>
+  <button class="btn btn-primary" onclick="navigateTo('profiles')">
+    <i class="ph ph-user-plus"></i> Manage Profiles
+  </button>
+</div>
+
+<div id="history-content">
+  <div class="grid-2" style="align-items:start; gap:20px">
+
+    <!-- Calendar -->
+    <div class="card">
+      <div class="flex items-center justify-between mb-16">
+        <button class="btn btn-ghost btn-icon" id="cal-prev"><i class="ph ph-caret-left"></i></button>
+        <div id="cal-month-label" class="font-lg"></div>
+        <button class="btn btn-ghost btn-icon" id="cal-next"><i class="ph ph-caret-right"></i></button>
+      </div>
+
+      <!-- Day-of-week headers -->
+      <div id="cal-dow" class="mb-8" style="display:grid;grid-template-columns:repeat(7,1fr);text-align:center">
+        <div class="font-xs text-muted">Su</div>
+        <div class="font-xs text-muted">Mo</div>
+        <div class="font-xs text-muted">Tu</div>
+        <div class="font-xs text-muted">We</div>
+        <div class="font-xs text-muted">Th</div>
+        <div class="font-xs text-muted">Fr</div>
+        <div class="font-xs text-muted">Sa</div>
+      </div>
+
+      <!-- Calendar grid -->
+      <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="flex items-center gap-8 mt-16" style="font-size:11px;color:var(--text-muted)">
+        <div style="width:10px;height:10px;border-radius:2px;background:var(--accent-gold);opacity:0.7"></div> Has data
+        <div style="width:10px;height:10px;border-radius:2px;background:var(--bg-elevated);border:1px solid var(--border)"></div> No data
+      </div>
+    </div>
+
+    <!-- Day detail panel -->
+    <div class="card" id="history-day-panel">
+      <div id="history-day-content">
+        <div class="empty-state">
+          <i class="ph ph-hand-pointing"></i>
+          <p>Click a day on the calendar to view entries.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

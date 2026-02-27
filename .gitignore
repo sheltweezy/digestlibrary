@@ -40,3 +40,9 @@ Thumbs.db
 
 # Test fixtures with real data
 tests/fixtures/real/
+
+# User-uploaded profile photos
+src/static/uploads/profiles/
+
+# Data directory
+data/

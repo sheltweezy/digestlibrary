@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digest Library</title>
+
+  <!-- Phosphor Icons -->
+  <link rel="stylesheet" href="/static/vendor/phosphor.css">
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="stylesheet" href="/static/css/charts.css">
+
+  <style>
+    /* Dropdown */
+    #profile-selector-area { position: relative; }
+    #profile-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      z-index: 100;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      min-width: 200px;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .dropdown-item:hover { background: var(--bg-elevated); color: var(--text-primary); }
+    .dropdown-item .ph { font-size: 16px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ======== Sidebar ======== -->
+  <aside id="sidebar">
+
+    <div class="sidebar-logo">
+      <div class="logo-text">Digest Library</div>
+      <div class="logo-sub">Consumption Intelligence</div>
+    </div>
+
+    <!-- Profile Selector -->
+    <div class="profile-selector">
+      <div class="profile-selector-label">Active Profile</div>
+      <div id="profile-selector-area">
+        <button id="profile-selector-btn" class="profile-selector-btn">
+          <i class="ph ph-user-circle" style="font-size:18px;color:var(--text-muted)"></i>
+          <span>Loading...</span>
+          <i class="ph ph-caret-down chevron"></i>
+        </button>
+        <div id="profile-dropdown"></div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-section-label">Analytics</div>
+      <a class="nav-link" data-page="trends">
+        <i class="ph ph-chart-line"></i> Trends
+      </a>
+      <a class="nav-link" data-page="overview">
+        <i class="ph ph-squares-four"></i> Overview
+      </a>
+      <a class="nav-link" data-page="history">
+        <i class="ph ph-calendar-blank"></i> History
+      </a>
+
+      <div class="nav-section-label">Manage</div>
+      <a class="nav-link" data-page="profiles">
+        <i class="ph ph-users"></i> Profiles
+      </a>
+      <a class="nav-link" data-page="upload">
+        <i class="ph ph-upload-simple"></i> Upload
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      v0.2.0 &middot; SQLite
+    </div>
+  </aside>
+
+  <!-- ======== Main Area ======== -->
+  <div id="main-area">
+
+    <!-- Topbar -->
+    <header id="topbar">
+      <span id="topbar-title" class="topbar-title">Trends</span>
+      <div class="topbar-actions">
+        <span id="topbar-date" class="topbar-sub"></span>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main id="page-content">
+      <div class="page-loading">
+        <div class="loading-spinner"></div> Loading...
+      </div>
+    </main>
+
+  </div><!-- end #main-area -->
+
+</div><!-- end #app -->
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Vendor Scripts -->
+<script src="/static/vendor/alpine.min.js" defer></script>
+<script src="/static/vendor/chart.umd.min.js"></script>
+
+<!-- App Scripts -->
+<script src="/static/js/api.js"></script>
+<script src="/static/js/app.js"></script>
+
+<script>
+  // Show today's date in topbar
+  const d = new Date();
+  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('topbar-date').textContent = d.toLocaleDateString('en-US', opts);
+</script>
+
+</body>
+</html>

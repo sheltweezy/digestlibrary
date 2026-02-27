@@ -1,0 +1,124 @@
+<div class="page-header">
+  <h1 class="page-title">
+    <i class="ph ph-chart-line"></i> Trends
+  </h1>
+  <div class="flex items-center gap-8">
+    <div class="date-range-bar" id="range-bar">
+      <button class="range-btn" data-range="7D">7D</button>
+      <button class="range-btn active" data-range="1M">1M</button>
+      <button class="range-btn" data-range="3M">3M</button>
+      <button class="range-btn" data-range="1Y">1Y</button>
+      <button class="range-btn" data-range="ALL">All</button>
+      <button class="range-btn" data-range="CUSTOM">Custom</button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom date inputs (hidden unless CUSTOM selected) -->
+<div id="custom-date-row" class="flex items-center gap-8 mb-16" style="display:none!important">
+  <label class="form-label" style="margin:0;white-space:nowrap">From</label>
+  <input type="date" id="custom-start" class="form-control" style="width:160px">
+  <label class="form-label" style="margin:0;white-space:nowrap">To</label>
+  <input type="date" id="custom-end" class="form-control" style="width:160px">
+  <button class="btn btn-secondary btn-sm" id="apply-custom">Apply</button>
+</div>
+
+<!-- No profile notice -->
+<div id="trends-no-profile" class="no-profile-notice" style="display:none">
+  <i class="ph ph-users"></i>
+  <h3>No profile selected</h3>
+  <p>Select or create a profile to view trend data.</p>
+  <button class="btn btn-primary" onclick="navigateTo('profiles')">
+    <i class="ph ph-user-plus"></i> Manage Profiles
+  </button>
+</div>
+
+<!-- Main content (hidden when no profile) -->
+<div id="trends-content">
+
+  <!-- Metric toggles -->
+  <div class="card mb-16">
+    <div class="card-header" style="margin-bottom:12px">
+      <i class="ph ph-funnel card-header-icon"></i>
+      <span class="card-title">Metrics</span>
+    </div>
+    <div class="metric-toggles" id="metric-toggles">
+      <button class="metric-pill active-calories" data-metric="calories">
+        <i class="ph ph-flame"></i> Calories
+      </button>
+      <button class="metric-pill active-protein" data-metric="protein_g">
+        <i class="ph ph-egg"></i> Protein
+      </button>
+      <button class="metric-pill active-carbs_g" data-metric="carbs_g">
+        <i class="ph ph-bread"></i> Carbs
+      </button>
+      <button class="metric-pill active-fat_g" data-metric="fat_g">
+        <i class="ph ph-drop-half"></i> Fat
+      </button>
+      <button class="metric-pill" data-metric="fiber_g">
+        <i class="ph ph-leaf"></i> Fiber
+      </button>
+      <button class="metric-pill" data-metric="sodium_mg">
+        <i class="ph ph-test-tube"></i> Sodium
+      </button>
+      <button class="metric-pill" data-metric="sugar_g">
+        <i class="ph ph-candy"></i> Sugar
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Chart -->
+  <div class="card mb-16">
+    <div style="position:relative;">
+      <div class="chart-container" style="height:320px">
+        <canvas id="trends-chart"></canvas>
+      </div>
+    </div>
+    <div class="chart-legend mt-8" id="trends-legend"></div>
+  </div>
+
+  <!-- Rolling Averages Row -->
+  <div id="avg-cards" class="grid-4 mb-16"></div>
+
+  <!-- Bottom row: Favorites + Meal Patterns -->
+  <div class="grid-2">
+
+    <!-- Favorite Foods -->
+    <div class="card">
+      <div class="card-header">
+        <i class="ph ph-star"></i>
+        <span class="card-title">Favorite Foods</span>
+        <span class="text-muted font-xs" style="margin-left:auto" id="favorites-period"></span>
+      </div>
+      <table class="data-table" id="favorites-table">
+        <thead>
+          <tr>
+            <th>Food</th>
+            <th>Times</th>
+            <th>Avg kcal</th>
+            <th>Avg Protein</th>
+          </tr>
+        </thead>
+        <tbody id="favorites-body">
+          <tr><td colspan="4" class="text-muted" style="text-align:center;padding:20px">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Meal Pattern Breakdown -->
+    <div class="card">
+      <div class="card-header">
+        <i class="ph ph-clock"></i>
+        <span class="card-title">Meal Patterns</span>
+      </div>
+      <div id="meal-patterns-content">
+        <div class="chart-container" style="height:200px">
+          <canvas id="meal-patterns-chart"></canvas>
+        </div>
+        <div id="meal-patterns-detail" class="mt-16"></div>
+      </div>
+    </div>
+
+  </div><!-- end grid-2 -->
+
+</div><!-- end trends-content -->

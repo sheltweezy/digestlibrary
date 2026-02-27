@@ -1,0 +1,151 @@
+<div class="page-header">
+  <h1 class="page-title">
+    <i class="ph ph-users"></i> Profiles
+  </h1>
+  <button class="btn btn-primary" id="btn-new-profile">
+    <i class="ph ph-user-plus"></i> New Profile
+  </button>
+</div>
+
+<!-- Profile Card Grid -->
+<div id="profiles-grid" class="mb-20">
+  <div class="page-loading"><div class="loading-spinner"></div> Loading...</div>
+</div>
+
+<!-- ---- Create / Edit Modal ---- -->
+<div class="modal-backdrop" id="profile-modal" style="display:none">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">New Profile</div>
+      <button class="btn btn-ghost btn-icon" onclick="closeProfileModal()">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+
+    <!-- Avatar preview + photo upload -->
+    <div class="flex items-center gap-16 mb-20">
+      <div id="modal-avatar-preview" style="position:relative;cursor:pointer" onclick="document.getElementById('photo-input').click()">
+        <!-- Rendered by JS -->
+      </div>
+      <div>
+        <div class="font-sm text-secondary mb-4">Profile Photo</div>
+        <div class="font-xs text-muted">Click avatar to upload a photo.</div>
+        <input type="file" id="photo-input" accept="image/*" style="display:none">
+      </div>
+    </div>
+
+    <!-- Age computed live -->
+    <div class="input-row">
+      <div class="form-group" style="flex:2">
+        <label class="form-label">Name *</label>
+        <input type="text" id="f-name" class="form-control" placeholder="Full name">
+      </div>
+    </div>
+
+    <div class="input-row">
+      <div class="form-group">
+        <label class="form-label">Date of Birth</label>
+        <input type="date" id="f-dob" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Biological Sex</label>
+        <select id="f-sex" class="form-control">
+          <option value="">— select —</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-row">
+      <div class="form-group">
+        <label class="form-label">Height — Feet</label>
+        <input type="number" id="f-feet" class="form-control" placeholder="5" min="0" max="8">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Inches</label>
+        <input type="number" id="f-inches" class="form-control" placeholder="11" min="0" max="11" step="0.5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Weight (lbs)</label>
+        <input type="number" id="f-weight" class="form-control" placeholder="165" step="0.5">
+      </div>
+    </div>
+
+    <div id="modal-err" class="text-red font-sm" style="display:none;margin-bottom:12px"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeProfileModal()">Cancel</button>
+      <button class="btn btn-primary" id="modal-save-btn" onclick="saveProfileFromModal()">
+        <i class="ph ph-floppy-disk"></i> Save
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ---- Goals Modal ---- -->
+<div class="modal-backdrop" id="goals-modal" style="display:none">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <div class="modal-title">Daily Goals</div>
+      <button class="btn btn-ghost btn-icon" onclick="closeGoalsModal()">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label"><i class="ph ph-flame"></i> Calories (kcal)</label>
+        <input type="number" id="g-calories" class="form-control" placeholder="2000" step="50">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="ph ph-egg"></i> Protein (g)</label>
+        <input type="number" id="g-protein" class="form-control" placeholder="150" step="5">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="ph ph-bread"></i> Carbs (g)</label>
+        <input type="number" id="g-carbs" class="form-control" placeholder="200" step="5">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="ph ph-drop-half"></i> Fat (g)</label>
+        <input type="number" id="g-fat" class="form-control" placeholder="65" step="5">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="ph ph-leaf"></i> Fiber (g)</label>
+        <input type="number" id="g-fiber" class="form-control" placeholder="30" step="1">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="ph ph-drop"></i> Water (ml)</label>
+        <input type="number" id="g-water" class="form-control" placeholder="2500" step="100">
+      </div>
+    </div>
+
+    <div id="goals-err" class="text-red font-sm" style="display:none;margin-bottom:12px"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeGoalsModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveGoalsFromModal()">
+        <i class="ph ph-floppy-disk"></i> Save Goals
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ---- Delete Confirm Modal ---- -->
+<div class="modal-backdrop" id="delete-modal" style="display:none">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-header">
+      <div class="modal-title">Delete Profile?</div>
+    </div>
+    <p class="font-sm text-secondary mb-20" id="delete-modal-msg">
+      This will permanently delete this profile and all associated entries. This cannot be undone.
+    </p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn btn-danger" id="confirm-delete-btn">
+        <i class="ph ph-trash"></i> Delete
+      </button>
+    </div>
+  </div>
+</div>

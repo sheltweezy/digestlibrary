@@ -1,0 +1,89 @@
+<div class="page-header">
+  <h1 class="page-title">
+    <i class="ph ph-upload-simple"></i> Upload
+  </h1>
+</div>
+
+<div style="max-width:600px;margin:0 auto">
+
+  <!-- Profile selector -->
+  <div class="card mb-16">
+    <div class="card-header">
+      <i class="ph ph-user-circle"></i>
+      <span class="card-title">Target Profile</span>
+    </div>
+    <div class="form-group" style="margin:0">
+      <label class="form-label">Upload data for:</label>
+      <select id="upload-profile-select" class="form-control">
+        <option value="">— select a profile —</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Drop zone -->
+  <div class="card mb-16">
+    <div class="card-header">
+      <i class="ph ph-file-csv"></i>
+      <span class="card-title">SnapCalorie Export (CSV)</span>
+    </div>
+
+    <div id="drop-zone" style="
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 40px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    ">
+      <i class="ph ph-upload-simple" style="font-size:36px;color:var(--text-muted);display:block;margin-bottom:12px"></i>
+      <div class="font-sm text-secondary mb-4">Drag & drop your SnapCalorie CSV here</div>
+      <div class="font-xs text-muted mb-16">or click to browse</div>
+      <input type="file" id="csv-input" accept=".csv" style="display:none">
+      <button class="btn btn-secondary btn-sm" onclick="document.getElementById('csv-input').click()">
+        <i class="ph ph-folder-open"></i> Browse File
+      </button>
+    </div>
+
+    <!-- Selected file info -->
+    <div id="file-info" style="display:none;margin-top:14px" class="flex items-center gap-10">
+      <i class="ph ph-file-csv" style="font-size:20px;color:var(--status-green)"></i>
+      <div>
+        <div class="font-sm" id="file-name">filename.csv</div>
+        <div class="font-xs text-muted" id="file-size"></div>
+      </div>
+      <button class="btn btn-ghost btn-icon btn-sm" style="margin-left:auto" onclick="clearFile()">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Upload button + result -->
+  <button class="btn btn-primary w-full mb-16" id="upload-btn" disabled>
+    <i class="ph ph-upload-simple"></i> Upload and Ingest
+  </button>
+
+  <!-- Result panel -->
+  <div id="upload-result" class="card" style="display:none">
+    <div class="card-header">
+      <i class="ph ph-check-circle" style="color:var(--status-green)"></i>
+      <span class="card-title">Ingest Result</span>
+    </div>
+    <div id="result-content"></div>
+  </div>
+
+  <!-- Format reference -->
+  <div class="card mt-16">
+    <div class="card-header">
+      <i class="ph ph-info"></i>
+      <span class="card-title">Expected Format</span>
+    </div>
+    <div class="font-xs text-muted" style="line-height:1.8">
+      Export from SnapCalorie app → <strong class="text-secondary">Diary → Export CSV</strong>.
+      The file should have these columns:<br>
+      <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent-gold)">
+        Date, Time, Food, Quantity, Unit, Calories (kcal), Protein (g), Carbs (g), Fat (g), Saturates (g), Fiber (g), Sugar (g), Cholesterol (mg), Sodium (mg), Potassium (mg)
+      </code>
+    </div>
+  </div>
+
+</div>

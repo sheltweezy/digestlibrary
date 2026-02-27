@@ -1,0 +1,20 @@
+services:
+  consumption:
+    build: .
+    container_name: digest_consumption
+    ports:
+      - "8003:8003"
+    volumes:
+      - consumption_data:/data
+    environment:
+      - SQLITE_DB_PATH=/data/digest.db
+    restart: unless-stopped
+    networks:
+      - digest_net
+
+volumes:
+  consumption_data:
+
+networks:
+  digest_net:
+    name: digest_net
